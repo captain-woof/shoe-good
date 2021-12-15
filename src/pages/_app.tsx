@@ -8,6 +8,8 @@ import theme from '../styles/theme';
 import createEmotionCache from '../utils/createEmotionCache';
 import { Provider } from 'react-redux'
 import store from '../store'
+import Navbar from '../components/organisms/navbar';
+import "../styles/base.css"
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -28,6 +30,7 @@ export default function MyApp(props: MyAppProps) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Provider store={store}>
+          <Navbar />
           <Component {...pageProps} />
         </Provider>
       </ThemeProvider>
