@@ -1,19 +1,35 @@
 import { createTheme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
 
 // Create a theme instance.
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#556cd6',
+      main: '#c9011b',
     },
     secondary: {
-      main: '#19857b',
-    },
-    error: {
-      main: red.A400,
-    },
+      main: '#FFF689',
+    }
   },
+  typography: {
+    allVariants: {
+      fontFamily: "'Lato', sans-serif"
+    },
+    h1: {
+      fontFamily: "'Fugaz One', sans-serif"
+    },
+    h2: {
+      fontFamily: "'Fugaz One', sans-serif"
+    },
+    h3: {
+      fontFamily: "'Fugaz One', sans-serif"
+    },
+    h4: {
+      fontFamily: "'Fugaz One', sans-serif"
+    },
+    h5: {
+      fontFamily: "'Fugaz One', sans-serif"
+    }
+  }
 });
 
 export default theme;
