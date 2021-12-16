@@ -1,31 +1,20 @@
-import { ContainerMargin, ContainerFullWidth } from "../../atoms/Containers";
-import HeroImage from "./heroImage";
-import { useTheme } from '@mui/material/styles'
-import Texts from "./texts";
-import Grid from "@mui/material/Grid"
-import { StyledParentGrid, StyledButton } from './styles'
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined'
+import Landing from "./landing-1"
+import Categories from "./categories-2"
+import { CategoryCollection } from "@chec/commerce.js/features/categories"
+import { ProductCollection } from "@chec/commerce.js/features/products"
 
-export default function Home() {
-    const theme = useTheme()
+interface IHome {
+    categories: CategoryCollection
+    categoryToProductsMap: { [key: string]: ProductCollection }
+}
 
+const Home = ({ categories, categoryToProductsMap }: IHome) => {
     return (
-        <ContainerFullWidth style={{ backgroundColor: theme.palette.primary.main }}>
-            <ContainerMargin>
-                <StyledParentGrid container minHeight="inherit" alignItems="center" justifyItems="center">
-                    <Grid xs={12} sm={6} item minHeight="100%">
-                        {/* For texts */}
-                        <Texts />
-                    </Grid>
-                    <Grid xs={12} sm={6} item minHeight="100%">
-                        {/* For hero image */}
-                        <HeroImage />
-                    </Grid>
-                </StyledParentGrid>
-                <StyledButton href="/store" variant="text" endIcon={<ShoppingBagOutlinedIcon />}>
-                    Explore
-                </StyledButton>
-            </ContainerMargin>
-        </ContainerFullWidth>
+        <>
+            <Landing />
+            <Categories categories={categories} categoryToProductsMap={categoryToProductsMap}/>
+        </>
     )
 }
+
+export default Home
