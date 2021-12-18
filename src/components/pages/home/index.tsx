@@ -3,6 +3,7 @@ import Categories from "./categories-2"
 import { CategoryCollection } from "@chec/commerce.js/features/categories"
 import { ProductCollection } from "@chec/commerce.js/features/products"
 import Features from "./features-3"
+import ShopNow from "./shopNow-4"
 
 interface IHome {
     categories: CategoryCollection
@@ -15,6 +16,7 @@ const Home = ({ categories, categoryToProductsMap }: IHome) => {
             <Landing />
             <Categories categories={categories} categoryToProductsMap={categoryToProductsMap} />
             <Features />
+            <ShopNow />
         </>
     )
 }
