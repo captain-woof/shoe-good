@@ -1,7 +1,7 @@
 {
-  "name": "nextjs-with-typescript",
-  "version": "5.0.0",
-  "private": true,
+  "name": "shoe-good",
+  "version": "1.0.0",
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -23,6 +23,7 @@
     "redux": "^4.1.2"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^12.0.7",
     "@types/chec__commerce.js": "^2.8.4",
     "@types/react": "latest",
     "@types/react-redux": "^7.1.20",
