@@ -18,7 +18,7 @@ export const StyledFeaturesBanner = styled(Grid)(({ theme }) => ({
     justifyContent: "center",
     alignItems: "center",
     gap: `${theme.spacing(5)} 0`,
-    padding: `${theme.spacing(2)} ${theme.spacing(1)} ${theme.spacing(8)} ${theme.spacing(1)}`
+    padding: `${theme.spacing(2)} ${theme.spacing(1)} ${theme.spacing(10)} ${theme.spacing(1)}`
 }))
 
 export const StyledFeatureGrid = styled(Grid)(({ theme }) => ({
