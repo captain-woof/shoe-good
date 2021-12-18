@@ -4,6 +4,7 @@ import Paper from "@mui/material/Paper"
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
+import Link from 'next/link'
 
 export const StyledHeading = styled(Typography)(({ theme }) => ({
     margin: "auto",
@@ -62,6 +63,13 @@ export const StyledCategoryProduct = styled(Box)(({ theme }) => ({
     flexGrow: 1,
     flexBasis: 0,
     height: "100%"
+}))
+
+export const StyledProductLink = styled("a")(({ theme }) => ({
+    height: "100%",
+    width: "100%",
+    display: "block",
+    position: "relative"
 }))
 
 export const StyledCategoryDescription = styled(Typography)(({ theme }) => ({

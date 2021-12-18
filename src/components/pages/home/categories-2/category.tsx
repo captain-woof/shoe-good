@@ -1,7 +1,9 @@
-import { StyledCategoryHeading, StyledCategoryPaper, StyledCategoryImgWrapper, StyledCategoryProducts, StyledCategoryProduct, StyledCategoryDescription } from "./styles"
+import { StyledCategoryHeading, StyledCategoryPaper, StyledCategoryImgWrapper, StyledCategoryProducts, StyledCategoryProduct, StyledCategoryDescription, StyledProductLink } from "./styles"
 import Image from 'next/image'
 import { Category } from "@chec/commerce.js/types/category"
 import { ProductCollection } from "@chec/commerce.js/features/products"
+import Tooltip from "@mui/material/Tooltip"
+import Link from 'next/link'
 
 interface ICategory {
     category: Category
@@ -21,14 +23,18 @@ export default function ProductCategory({ category, products }: ICategory) {
             </StyledCategoryImgWrapper>
             <StyledCategoryProducts>
                 {products?.data?.map((product) => (
-                    <StyledCategoryProduct key={product.id}>
-                        <Image src={product.image?.url || "#"} alt={product.name} layout="fill" objectFit="cover" />
-                    </StyledCategoryProduct>
+                    <Tooltip title={product.name} key={product.id}>
+                        <StyledCategoryProduct>
+                            <Link passHref href={`/products/${product.id}`}><StyledProductLink>
+                                <Image src={product.image?.url || "#"} alt={product.name} layout="fill" objectFit="cover" />
+                            </StyledProductLink></Link>
+                        </StyledCategoryProduct>
+                    </Tooltip>
                 ))}
             </StyledCategoryProducts>
             <StyledCategoryDescription>
                 {categoryDescription}
             </StyledCategoryDescription>
-        </StyledCategoryPaper>
+        </StyledCategoryPaper >
     )
 }
