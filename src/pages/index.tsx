@@ -23,7 +23,8 @@ export const getStaticProps = async (ctx: GetStaticPathsContext) => {
     props: {
       categories,
       categoryToProductsMap
-    }
+    },
+    revalidate: 60
   }
 }
 
