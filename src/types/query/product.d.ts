@@ -6,6 +6,7 @@ export type ProductsQuery = {
     query?: string
     sortBy?: 'sort_order' | 'name' | 'created' | 'price'
     sortDirection?: 'asc' | 'desc'
+    page?: number
 }
 
 export type ProductIdentityQuery = {
