@@ -14,7 +14,9 @@ import { ContainerMargin } from "../../atoms/Containers"
 // Below styles for Drawer and its children
 export const StyledDrawer = styled(Drawer)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
-        width: "320px !important"
+        "& > :nth-child(3)": {
+            width: "320px !important"
+        }
     }
 }))
 

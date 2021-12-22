@@ -22,13 +22,13 @@ export default function Store({ initialProducts, categories }: Store) {
 
     return (
         <>
-            <FilterDrawer setQueryDrawerShow={setQueryDrawerShow} setProductsQuery={setProductsQuery} queryState={queryState} queryDrawerShow={queryDrawerShow} setQuery={setQuery} categories={categories}/>
+            <FilterDrawer setQueryDrawerShow={setQueryDrawerShow} setProductsQuery={setProductsQuery} queryState={queryState} queryDrawerShow={queryDrawerShow} setQuery={setQuery} categories={categories} />
             <StyledContainerMargin>
                 <StyledHeadingContainer>
                     <StyledHeading variant="h3">Store</StyledHeading>
                     <StyledSubHeading variant="h5">Find your fit</StyledSubHeading>
                 </StyledHeadingContainer>
-                <StyledQueryBox onSubmit={() => setProductsQuery(queryState)}>
+                <StyledQueryBox onSubmit={(e) => { e.preventDefault(); setProductsQuery(queryState) }}>
                     <StyledQueryTextfield value={queryState.query} placeholder="Search for products" onChange={(e) => { setQuery({ query: e.target.value }) }} color="primary" size="small" label="Search" />
                     <Tooltip title="Search filters">
                         <StyledIconButton onClick={() => { setQueryDrawerShow(true) }}>
