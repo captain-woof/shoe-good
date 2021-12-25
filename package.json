@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.2.1",
     "@mui/material": "latest",
     "axios": "^0.24.0",
+    "html-react-parser": "^1.4.4",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
