@@ -10,7 +10,7 @@ import { StyledHeading, StyledNavbar, StyledNavbarLinkWidescreen, StyledNavbarLi
 // From MUI
 import Toolbar from '@mui/material/Toolbar'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import Badge from '@mui/material/Badge'
 import IconButton from "@mui/material/IconButton"
 
 // From Next
@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 
 // Hooks
 import useDevice from '../../../hooks/device'
+import useCart from "../../../hooks/cart"
 
 const navLinks = {
     home: { displayName: "Home", url: "/", Icon: HomeIcon },
@@ -30,6 +31,9 @@ const navLinks = {
 export default function Navbar() {
     const { isMobile } = useDevice()
     const router = useRouter()
+
+    // Global cart
+    const { cart } = useCart()
 
     return (
         <StyledNavbar>
@@ -51,8 +55,10 @@ export default function Navbar() {
                             <StyledNavbarLinkWidescreen href={navLinks.dashboard.url}>
                                 {navLinks.dashboard.displayName}
                             </StyledNavbarLinkWidescreen>
-                            <IconButton href={navLinks.cart.url} color="primary">
-                                {<navLinks.cart.Icon height="fit-content" />}
+                            <IconButton href={navLinks.cart.url} color="primary" aria-label={`${cart?.total_items || 0} in cart`}>
+                                <Badge color="primary" badgeContent={cart?.total_items || 0}>
+                                    {<navLinks.cart.Icon height="fit-content" />}
+                                </Badge>
                             </IconButton>
                         </StyledNavbarLinksContainer>
                     </Grid>
@@ -85,7 +91,9 @@ export default function Navbar() {
                         <Grid item md={3}>
                             <Link href={navLinks.cart.url} passHref><a>
                                 <StyledMobileNavbarIconButtons active={router.pathname === navLinks.cart.url}>
-                                    {<navLinks.cart.Icon />}
+                                    <Badge color="primary" badgeContent={cart?.total_items || 0}>
+                                        {<navLinks.cart.Icon />}
+                                    </Badge>
                                 </StyledMobileNavbarIconButtons>
                             </a></Link>
                         </Grid>
