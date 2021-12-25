@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import store from '../store'
 import Navbar from '../components/organisms/navbar';
 import "../styles/base.css"
+import Snackbar from '../components/atoms/snackbar';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -23,7 +24,7 @@ export default function MyApp(props: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Change title in _app.tsx</title>
+        <title>ShoeGood - Buy shoes online</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
@@ -32,6 +33,7 @@ export default function MyApp(props: MyAppProps) {
         <Provider store={store}>
           <Navbar />
           <Component {...pageProps} />
+          <Snackbar />
         </Provider>
       </ThemeProvider>
     </CacheProvider>
