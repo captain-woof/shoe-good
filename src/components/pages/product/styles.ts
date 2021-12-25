@@ -149,8 +149,9 @@ export const StyledActionButtonsRow = styled(Box)(({ theme }) => ({
     gap: theme.spacing(2),
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: theme.spacing(10),
     [theme.breakpoints.up("sm")]: {
-        justifyContent: "flex-end"
-    },
-    paddingBottom: theme.spacing(10)
+        justifyContent: "flex-end",
+        paddingBottom: theme.spacing(0)
+    }
 }))
