@@ -51,7 +51,7 @@ export default function Product({ product }: Product) {
     ), [variantGroupOptionMap])
 
     // For cart
-    const { addToCart, cartPending } = useCart()
+    const { addToCart, opPending } = useCart()
 
     // For deciding size of action buttons
     const { isMobile } = useDevice()
@@ -123,7 +123,7 @@ export default function Product({ product }: Product) {
                                             Go to cart
                                         </Button>
                                     </a></Link>
-                                    <Button size={isMobile ? "small" : "medium"} disabled={cartPending} variant="contained" color="primary" onClick={() => { addToCart(product.id, 1, variantGroupOptionMap) }} endIcon={<LocalMallIcon />}>
+                                    <Button size={isMobile ? "small" : "medium"} disabled={opPending} variant="contained" color="primary" onClick={() => { addToCart(product.id, 1, variantGroupOptionMap) }} endIcon={<LocalMallIcon />}>
                                         Add to cart
                                     </Button>
                                 </StyledActionButtonsRow>
