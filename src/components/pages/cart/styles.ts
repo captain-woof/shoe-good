@@ -12,6 +12,7 @@ export const StyledCartPaper = styled(Paper)(({ theme }) => ({
     width: '100%',
     marginTop: theme.spacing(12),
     padding: theme.spacing(2),
+    marginBottom: theme.spacing(6),
     [theme.breakpoints.down("sm")]: {
         padding: `${theme.spacing(1)} 0 ${theme.spacing(4)} 0`,
         marginBottom: theme.spacing(12)

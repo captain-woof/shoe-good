@@ -6,7 +6,14 @@ import { useSnackbar } from "./snackbar"
 import { useCallback, useEffect, useState } from "react"
 import { commerce } from "../utils/chec/commerce"
 import { VariantGroupToOptionMap } from "../types/product/variants"
-import Razorpay from "razorpay"
+import { useRouter } from "next/router"
+
+// Extending Window to include Razorpay object
+declare global {
+    interface Window {
+        Razorpay: any
+    }
+}
 
 // Interface for checkout function
 interface CustomerDetails {
@@ -24,21 +31,22 @@ const useCart = () => {
     const cart = useSelector((state: RootState) => state.cart) // Global cart
     const setCart = (cart: Cart) => { dispatch(getCartAction(cart)) } // Global cart setter
     const { setSnackbarPayload } = useSnackbar() // Global snackbar setter
-    const [cartPending, setCardPending] = useState<boolean>(false) // For cart pending state
+    const [cartPending, setCartPending] = useState<boolean>(false) // For cart pending state
     const [opPending, setOpPending] = useState<boolean>(false) // For any function pending state
+    const router = useRouter() // Next
 
     // Initial cart setup
     useEffect(() => {
         (async () => {
             if (!!setCart && !cart) {
                 try {
-                    setCardPending(true)
+                    setCartPending(true)
                     const cart = await commerce.cart.retrieve()
                     setCart(cart)
                 } catch (e) {
                     setSnackbarPayload({ type: "error", message: "Could not setup your cart!" })
                 } finally {
-                    setCardPending(false)
+                    setCartPending(false)
                 }
             }
         })()
@@ -102,19 +110,31 @@ const useCart = () => {
         }
     }, [setCart, setOpPending])
 
+    // Function to refresh cart (line item)
+    const refreshCart = useCallback(async () => {
+        try {
+            setOpPending(true)
+            const newCart = await commerce.cart.refresh()
+            setCart(newCart)
+        } catch (e) {
+            console.error("Could not refresh cart", e)
+        } finally {
+            setOpPending(false)
+        }
+    }, [setCart, setOpPending])
+
     // Function to start checkout
     const startCheckout = useCallback(async (customerDetails: CustomerDetails) => {
-        if (!!cart?.id) {
+        if (!!cart?.id && ("Razorpay" in window)) {
             try {
                 setOpPending(true)
 
                 // Generate Chec checkout token
                 const checkoutToken = await commerce.checkout.generateTokenFrom("cart", cart?.id)
-
                 // Complete payment through Razorpay
-                const razorpay = new Razorpay({
-                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-                    amount: cart.subtotal.raw * 100,
+                const razorpay = new window.Razorpay({
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID as string,
+                    amount: `${(checkoutToken.live.total.raw + checkoutToken.shipping_methods[0].price.raw) * 100}`,
                     currency: "INR",
                     name: "Shoe-Good",
                     image: `${process.env.NEXT_PUBLIC_APP_ORIGIN}/images/logo.png`,
@@ -129,15 +149,17 @@ const useCart = () => {
                     handler(response: any) { // Capture payment through Razorpay with Chec
                         (async () => {
                             try {
-                                await commerce.checkout.capture(checkoutToken.id, {
+                                const res = await commerce.checkout.capture(checkoutToken.id, {
                                     customer: {
                                         email: customerDetails.email || "",
                                         firstname: customerDetails.name.split(" ")[0],
                                         lastname: customerDetails.name.split(" ")[1],
-                                        phone: customerDetails.phone,
+                                        phone: customerDetails.phone
                                     },
                                     payment: {
-                                        gateway: "razorpay",
+                                        gateway: checkoutToken.gateways
+                                            .find(({ id }) => id === process.env.NEXT_PUBLIC_CHEC_GATEWAY_ID_RAZORPAY)
+                                            ?.id as string,
                                         razorpay: {
                                             payment_id: response.razorpay_payment_id
                                         }
@@ -147,21 +169,46 @@ const useCart = () => {
                                         street: customerDetails.streetAddress,
                                         town_city: customerDetails.townCity,
                                         county_state: customerDetails.state,
-                                        postal_zip_code: customerDetails.pincode,
+                                        postal_zip_code: customerDetails.pincode.toString(),
                                         country: "IN"
+                                    },
+                                    billing: {
+                                        name: customerDetails.name,
+                                        street: customerDetails.streetAddress,
+                                        town_city: customerDetails.townCity,
+                                        county_state: customerDetails.state,
+                                        postal_zip_code: customerDetails.pincode.toString(),
+                                        country: "IN"
+                                    },
+                                    fulfillment: {
+                                        shipping_method: checkoutToken.shipping_methods[0].id
                                     }
                                 })
-                            } catch {
-                                throw Error(response.message)
+                                // Show success prompt
+                                setSnackbarPayload({ type: "success", message: "Payment successful!" })
+
+                                // Get and set new cart
+                                const cart = await commerce.cart.retrieve()
+                                setCart(cart)
+                                setOpPending(false)
+
+                                // Nav to thanks page
+                                setTimeout(() => {
+                                    router.push("/thank-you")
+                                }, 2000)
+                            } catch (e) {
+                                console.log("Chec capture failed", e)
+                                setSnackbarPayload({ type: "error", message: "Payment failed!" })
+                                setOpPending(false)
                             }
                         })()
-                    },
-                    allow_rotation: true
+                    }
                 })
 
                 // Error handling
                 razorpay.on('payment.failed', (response: any) => {
-                    throw Error()
+                    setSnackbarPayload({ type: "error", message: "Payment failed!" })
+                    console.log("Razorpay error", response)
                 });
 
                 // Show the razorpay window immediately
@@ -169,13 +216,12 @@ const useCart = () => {
 
             } catch (e) {
                 setSnackbarPayload({ type: "error", message: "Payment failed!" })
-            } finally {
                 setOpPending(false)
             }
         }
     }, [cart])
 
-    return { cart, setCart, addToCart, cartPending, opPending, removeItemFromCart, removeAllItemsFromCart, startCheckout }
+    return { cart, setCart, addToCart, cartPending, opPending, removeItemFromCart, removeAllItemsFromCart, startCheckout, refreshCart }
 }
 
 export default useCart

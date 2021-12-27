@@ -12,11 +12,6 @@ export default function Cart() {
     const { cart, opPending, cartPending, removeAllItemsFromCart } = useCart()
     const { isMobile } = useDevice()
 
-    // TEST
-    useEffect(() => {
-        console.log(cart)
-    }, [cart])
-
     // Handler to clear cart
     const handleClearCart = useCallback(() => {
         removeAllItemsFromCart()
