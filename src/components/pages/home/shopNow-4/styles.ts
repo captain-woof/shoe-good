@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles"
 import Container from "@mui/material/Container"
 import Typography from "@mui/material/Typography"
+import Box from "@mui/material/Box"
 
 export const StyledContainer = styled(Container)(({ theme }) => ({
     minHeight: "236px",
@@ -20,5 +21,40 @@ export const StyledContainer = styled(Container)(({ theme }) => ({
 
 export const StyledShopNowText = styled(Typography)(({ theme }) => ({
     textTransform: "uppercase",
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
+    [theme.breakpoints.down("sm")]: {
+        fontSize: theme.typography.h4.fontSize
+    }
+}))
+
+export const StyledFooterContainer = styled(Box)(({ theme }) => ({
+    width: "100%",
+    minHeight: "100px",
+    backgroundColor: theme.palette.primary.main,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+        marginBottom: theme.spacing(6),
+        padding: theme.spacing(2)
+    }
+}))
+
+export const StyledCreditsHeadline = styled(Typography)(({ theme }) => ({
+    color: theme.palette.common.white,
+    fontFamily: theme.typography.h1.fontFamily,
+    textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+        fontSize: theme.typography.h5.fontSize
+    }
+}))
+
+export const StyledCreditsBody = styled(Typography)(({ theme }) => ({
+    color: theme.palette.grey[50],
+    textAlign: "center",
+    fontWeight: 500,
+    textDecoration: "underline",
+    fontStyle: "italic"
 }))
