@@ -11,7 +11,7 @@ export default function ShopNow() {
                     <Button variant="contained">Shop now</Button>
                 </a></Link>
             </StyledContainer>
-            <StyledFooterContainer>
+            <StyledFooterContainer as="footer">
                 <StyledCreditsHeadline variant="h4">
                     Shoe-Good
                 </StyledCreditsHeadline>

@@ -30,6 +30,8 @@ export const StyledShopNowText = styled(Typography)(({ theme }) => ({
 export const StyledFooterContainer = styled(Box)(({ theme }) => ({
     width: "100%",
     minHeight: "100px",
+    maxWidth: "1200px",
+    margin: "0 auto",
     backgroundColor: theme.palette.primary.main,
     display: "flex",
     flexDirection: "column",
