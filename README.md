@@ -12,3 +12,7 @@ An ecommerce site for Shoes.
  - Razorpay
  - Redux
  - Commerce.js (Chec)
+
+### Docs
+
+ - **Razorpay constructor params**: [https://razorpay.com/docs/payment-gateway/web-integration/standard/checkout-options/](https://razorpay.com/docs/payment-gateway/web-integration/standard/checkout-options/)
